@@ -1,5 +1,6 @@
-from Patient import Patient
-from Mutation import Mutation
+from patient import Patient
+from mutation import Mutation
+from allele import Allele
 
 # Create patient instance
 x = Patient('Rachel')

@@ -1,4 +1,10 @@
 class Patient:
+
+    '''
+    This class is meant to create a patient object that can call
+    '''
+
+
     def __init__(self, id='SampleID'):
         '''
         Constructor for this class.
