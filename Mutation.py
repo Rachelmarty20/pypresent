@@ -99,8 +99,8 @@ class Mutation:
 
         if MHC_class == 'I':
             # Return lengths 8, 9, 10, 11
-            
+            None
 
         else:
             # Return lengths 15
-
+            None
