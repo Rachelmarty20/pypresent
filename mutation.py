@@ -92,13 +92,13 @@ class Mutation:
         # Create prepped output file
         self._create_mutated_input_fasta()
 
-    def get_peptides_containing_residue(self, MHC_class='I'):
+    def get_peptides_containing_residue(self, mhc_class='I'):
         """
         Return the substrings of self.short_mutated_sequence containing the residue
         :return: A list of peptides
         """
 
-        if MHC_class == 'I':
+        if mhc_class == 'I':
             # Return lengths 8, 9, 10, 11
             peptides = []
             pos = 11
@@ -119,4 +119,5 @@ class Mutation:
                     end = i + kmer
                     if pos >= start and pos < end:
                         peptides.append(self.short_mutated_sequence[start:end])
+
         return peptides
