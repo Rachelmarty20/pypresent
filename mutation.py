@@ -9,12 +9,13 @@ Will implement native and MHC-II mutation capabilities as well.
 '''
 
 import time
+# May want to work around this to avoid the import
 from Bio import SeqIO
 
 
 PATH_TO_ENSEMBL_REF = '/cellar/users/ramarty/Data/hla_ii/' \
                        + 'references/Homo_sapiens.GRCh38.pep.all.fa'
-TEMP_DIR = '/cellar/users/ramarty/Data/pypresent/tmp'
+TEMP_DIR = '/cellar/users/ramarty/Data/pypresent/tmp/'
 INPUT_FASTA_LENGTH = 21 # this is only for class I
 
 
@@ -26,7 +27,7 @@ class Mutation:
         :return: None
         """
         fasta_sequences = SeqIO.parse(open(self.gene_fasta_file),'fasta')
-        sequence = fasta_sequences.next().seq.tostring()
+        sequence = str(fasta_sequences.next().seq)
         return sequence
 
     def _verify_matching_protein(self, native_aa):
@@ -99,8 +100,23 @@ class Mutation:
 
         if MHC_class == 'I':
             # Return lengths 8, 9, 10, 11
-            None
+            peptides = []
+            pos = 11
+            for kmer in [8,9,10,11]:
+                for i in range(len(self.short_mutated_sequence) - (kmer-1)):
+                    start = i
+                    end = i + kmer
+                    if pos >= start and pos < end:
+                        peptides.append(self.short_mutated_sequence[start:end])
 
-        else:
+        else: # MHC class II
             # Return lengths 15
-            None
+            peptides = []
+            pos = 15
+            for kmer in [15]:
+                for i in range(len(self.short_mutated_sequence) - (kmer-1)):
+                    start = i
+                    end = i + kmer
+                    if pos >= start and pos < end:
+                        peptides.append(self.short_mutated_sequence[start:end])
+        return peptides

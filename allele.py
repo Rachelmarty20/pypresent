@@ -1,3 +1,5 @@
+import numpy as np
+
 from scoring import single, multi
 from affinities import mhcI, mhcII
 
@@ -17,6 +19,7 @@ class Allele:
         """
         # allele
         if id is not None:
+            # TODO: add appropriate formatting or check (ex. HLA-C14:09)
             self.id = id
         else:
             try:
@@ -25,18 +28,28 @@ class Allele:
                 print("Please specificy an allele name or an input file.")
 
 
-    # TODO: add a default scoring fuction
-    def allele_score(self, mutation, scoring_function, software):
+    def allele_score(self, mutation, scoring_function='best_rank',
+                     software='netMHCpan30'):
         """
-        Calculation of a residue centric presentation score for a single allele
+        Calculation of a residue centric presentation score for
+        a single allele
         :param mutation:
-        :param scoring_function:
-        :param software:
-        :return:
+        :param scoring_function: the scoring function used to
+                consolidate the affinities
+        :param software: the software used to call the affinities
+        :return: score
         """
 
         # Run the affinity prediction
-        affinity_data_file = mhcI.(self, mutation)
+        if software == 'netMHCpan30':
+            affinity_data_file = mhcI.run_netmhcpan30(self, mutation)
+        else:
+            raise Exception('Please select an available software.')
 
         # Consolidate into a score
-        single.best_rank(affinity_data_file, mutation)
+        if scoring_function == 'best_rank':
+            score = single.best_rank(affinity_data_file, mutation)
+        else:
+            raise Exception('Please select an available scoring function.')
+
+        return score
