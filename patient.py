@@ -26,7 +26,7 @@ class Patient:
         :return: None
         '''
         for hla in self.hla_types:
-            print hla
+            print hla.id
 
     def patient_score(self, mutation, allele_scoring_function='best_rank',
                       patient_scoring_function='best_rank', software='netMHCpan30'):
@@ -44,7 +44,7 @@ class Patient:
         allele_scores = []
         for hla in self.hla_types:
             if software == 'netMHCpan30':
-                affinity_data_file = mhcI.run_netmhcpan30(self, mutation)
+                affinity_data_file = mhcI.run_netmhcpan30(hla, mutation)
             else:
                 raise Exception('Please select an available software.')
 
