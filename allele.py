@@ -1,6 +1,6 @@
 import numpy as np
 
-from scoring import single, multi
+from scoring import single
 from affinities import mhcI, mhcII
 
 class Allele:

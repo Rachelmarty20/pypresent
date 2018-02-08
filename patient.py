@@ -1,36 +1,24 @@
+from allele import Allele
+from scoring import single, multi
+from affinities import mhcI, mhcII
+
 class Patient:
 
     '''
-    This class is meant to create a patient object that can call
+    This class creates a patient object that is defined by its six alleles
+    and
     '''
 
-
-    def __init__(self, id='SampleID'):
+    def __init__(self, alleles, id='SampleID'):
         '''
-        Constructor for this class.
+        Constructor from a file or from a list
         :return: Object
         '''
         # PatientID
         self.id = id
 
-
-    def import_hla_types_from_file(self, file_in):
-        '''
-        Imports patient HLA types from a file
-        :param file_in: path to the file with types (new-line separated)
-        :return: None
-        '''
-        self.hla_types = [x.strip() for x in open(file_in).readlines()]
-
-
-    def import_hla_types_from_list(self, list):
-        '''
-        Imports patient HLA types from a list
-        :param list: List of HLA types
-        :return: None
-        '''
-        self.hla_types = list
-
+        # Get types as Allele objects
+        self.hla_types = [Allele(a) for a in alleles]
 
     def print_hla_types(self):
         '''
@@ -40,17 +28,35 @@ class Patient:
         for hla in self.hla_types:
             print hla
 
-    def get_PHBR(self, mutation):
-        '''
-        Calculates PHBR score for a specific mutation
-        :param mutation: a Mutation instance
-        :return: a float (PHBR score)
-        '''
+    def patient_score(self, mutation, allele_scoring_function='best_rank',
+                      patient_scoring_function='best_rank', software='netMHCpan30'):
+        """
+        Calculation of a residue centric presentation score for
+        a patient
+        :param mutation: A mutation object
+        :param allele_scoring_function: from scoring.single
+        :param patient_scoring_function: from scoring.multi
+        :param software: from affinities.mhcI or affinities.mhcII
+        :return: a presentation score
+        """
 
+        # Run the affinity prediction
+        allele_scores = []
+        for hla in self.hla_types:
+            if software == 'netMHCpan30':
+                affinity_data_file = mhcI.run_netmhcpan30(self, mutation)
+            else:
+                raise Exception('Please select an available software.')
 
-    def get_PHBRs(self, mutations):
-        '''
-        Calculates PHBR scores for a list of mutations
-        :param mutations: a list of Mutation instances
-        :return: a list of floats (PHBR scores)
-        '''
+            # Consolidate into a score
+            if allele_scoring_function == 'best_rank':
+                allele_scores.append(single.best_rank(affinity_data_file, mutation))
+            else:
+                raise Exception('Please select an available single-allelic scoring function.')
+
+        if patient_scoring_function == 'best_rank':
+            score = multi.best_rank(allele_scores)
+        else:
+            raise Exception('Please select an available multi-allelic scoring function.')
+
+        return score
