@@ -36,7 +36,7 @@ class Patient:
         for hla in self.hla_II_types:
             print hla.id
 
-    def patient_score(self, mutation, mhc_class,
+    def patient_score(self, mutation, mhc_class='I',
                       allele_scoring_function='best_rank',
                       patient_scoring_function='harmonic_mean',
                       software='netMHCpan30'):
