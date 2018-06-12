@@ -100,7 +100,7 @@ class Mutation:
         self.sequence = self._get_protein_sequence()
 
         # Create prepped output file
-        self._create_mutated_input_fasta(mhc_class)
+        self._create_mutated_input_fasta()
 
     def get_peptides_containing_residue(self, mhc_class='I'):
         """
