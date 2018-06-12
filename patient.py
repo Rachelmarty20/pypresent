@@ -2,6 +2,10 @@ from allele import Allele
 from scoring import single, multi
 from affinities import mhcI, mhcII
 
+ALLELES_I = ['HLA-A01:01', 'HLA-A01:01', 'HLA-B07:02', 'HLA-B07:02', 'HLA-C01:02', 'HLA-C01:02']
+ALLELES_II = []
+
+
 class Patient:
 
     '''
@@ -9,7 +13,8 @@ class Patient:
     and
     '''
 
-    def __init__(self, alleles, id='SampleID'):
+    # TODO: This is currently confusing. Need default options for both classes.
+    def __init__(self, alleles_I, alleles_II, id='SampleID'):
         '''
         Constructor from a file or from a list
         :return: Object
@@ -18,18 +23,23 @@ class Patient:
         self.id = id
 
         # Get types as Allele objects
-        self.hla_types = [Allele(a) for a in alleles]
+        self.hla_I_types = [Allele(a, 'I') for a in alleles_I]
+        self.hla_II_types = [Allele(a, 'II') for a in alleles_II]
 
     def print_hla_types(self):
         '''
         Prints the HLA types for a patient
         :return: None
         '''
-        for hla in self.hla_types:
+        for hla in self.hla_I_types:
+            print hla.id
+        for hla in self.hla_II_types:
             print hla.id
 
-    def patient_score(self, mutation, allele_scoring_function='best_rank',
-                      patient_scoring_function='best_rank', software='netMHCpan30'):
+    def patient_score(self, mutation, mhc_class,
+                      allele_scoring_function='best_rank',
+                      patient_scoring_function='harmonic_mean',
+                      software='netMHCpan30'):
         """
         Calculation of a residue centric presentation score for
         a patient
@@ -40,22 +50,35 @@ class Patient:
         :return: a presentation score
         """
 
+        # TODO: speed this up by running all at once
         # Run the affinity prediction
         allele_scores = []
-        for hla in self.hla_types:
-            if software == 'netMHCpan30':
+        if mhc_class == 'I':
+            types = self.hla_I_types
+        else:
+            types = self.hla_II_types
+        for hla in types:
+            if mhc_class == 'I':
                 affinity_data_file = mhcI.run_netmhcpan30(hla, mutation)
+            elif mhc_class == 'II':
+                affinity_data_file = mhcII.run_netmhcIIpan31(hla, mutation)
             else:
                 raise Exception('Please select an available software.')
 
             # Consolidate into a score
             if allele_scoring_function == 'best_rank':
                 allele_scores.append(single.best_rank(affinity_data_file, mutation))
+            elif allele_scoring_function == 'harmonic_mean':
+                allele_scores.append(single.harmonic_mean(affinity_data_file, mutation))
             else:
                 raise Exception('Please select an available single-allelic scoring function.')
 
         if patient_scoring_function == 'best_rank':
             score = multi.best_rank(allele_scores)
+        elif patient_scoring_function == 'harmonic_mean':
+            score = multi.harmonic_mean(allele_scores)
+        elif patient_scoring_function == 'geometric_mean':
+            score = multi.geometric_mean(allele_scores)
         else:
             raise Exception('Please select an available multi-allelic scoring function.')
 

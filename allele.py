@@ -10,7 +10,7 @@ class Allele:
 
     '''
 
-    def __init__(self, id=None, file_in=''):
+    def __init__(self, id=None, mhc_class=None, file_in=''):
         """
         Constructor for this class.
         :param id:
@@ -18,18 +18,20 @@ class Allele:
         :return:
         """
         # allele
-        if id is not None:
+        if (id is not None) and (mhc_class is not None):
             # TODO: add appropriate formatting or check (ex. HLA-C14:09)
             self.id = id
+            self.mhc_class = mhc_class
         else:
             try:
                 self.id = open(file_in).readline().strip()
+                self.id = id
+                self.mhc_class = mhc_class
             except NameError:
                 print("Please specificy an allele name or an input file.")
 
 
-    def allele_score(self, mutation, scoring_function='best_rank',
-                     software='netMHCpan30'):
+    def allele_score(self, mutation, scoring_function='best_rank'):
         """
         Calculation of a residue centric presentation score for
         a single allele
@@ -41,10 +43,14 @@ class Allele:
         """
 
         # Run the affinity prediction
-        if software == 'netMHCpan30':
+        if self.mhc_class == 'I':
+            software = 'netMHCpan30'
             affinity_data_file = mhcI.run_netmhcpan30(self, mutation)
+        elif self.mhc_class == 'II':
+            software = 'netMHCIIpan31'
+            affinity_data_file = mhcII.run_netmhcIIpan31(self, mutation)
         else:
-            raise Exception('Please select an available software.')
+            raise Exception('Please select a class with an available software.')
 
         # Consolidate into a score
         if scoring_function == 'best_rank':

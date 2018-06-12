@@ -16,7 +16,8 @@ from Bio import SeqIO
 PATH_TO_ENSEMBL_REF = '/cellar/users/ramarty/Data/hla_ii/' \
                        + 'references/Homo_sapiens.GRCh38.pep.all.fa'
 TEMP_DIR = '/cellar/users/ramarty/Data/pypresent/tmp/'
-INPUT_FASTA_LENGTH = 21 # this is only for class I
+INPUT_FASTA_EXTENSION_I = 10 # class I
+INPUT_FASTA_EXTENSION_II = 14 # class II
 
 
 class Mutation:
@@ -30,13 +31,14 @@ class Mutation:
         sequence = str(fasta_sequences.next().seq)
         return sequence
 
+    # TODO: Add method
     def _verify_matching_protein(self, native_aa):
         """
         Check that old_aa is what it should be
         :return: True if protein matches, False otherwise
         """
 
-    def _create_mutated_input_fasta(self, MHC_class='I'):
+    def _create_mutated_input_fasta(self, mhc_class='I'):
         """
         Creating a mutated fasta file for affinity prediction in tmp directory
         :return: None
@@ -46,7 +48,10 @@ class Mutation:
         self.restricted_fasta_file = output_file
 
         # TODO: make this account for both classes
-        y = 10 # this will need to get updated
+        if mhc_class == 'I':
+            y = INPUT_FASTA_EXTENSION_I
+        else:
+            y = INPUT_FASTA_EXTENSION_II
         # Make peptide sequence with mutation and output
         if len(self.sequence) >= self.residue: #(not accurate for random)
             mutated_sequence = self.sequence[:self.residue] \
@@ -66,13 +71,16 @@ class Mutation:
             with open(output_file, 'w') as f:
                 f.write('>gi {0}\n'.format(self.id))
                 f.write(mutated_sequence[start+1:end+2])
-            self.short_mutated_sequence = mutated_sequence[start+1:end+2]
+            if mhc_class == 'I':
+                self.short_mutated_sequenceI = mutated_sequence[start+1:end+2]
+            else:
+                self.short_mutated_sequenceII = mutated_sequence[start+1:end+2]
 
         else:
             raise Exception('Residue does not exist in the protien.')
 
     def __init__(self, gene_fasta_file, residue, aa, id='mutationID',
-                 native_aa=None, native=False):
+                 mhc_class = 'I', native_aa=None, native=False):
         """
         Constructor for direct peptide input
         :return: Object
@@ -90,7 +98,7 @@ class Mutation:
         self.sequence = self._get_protein_sequence()
 
         # Create prepped output file
-        self._create_mutated_input_fasta()
+        self._create_mutated_input_fasta(mhc_class)
 
     def get_peptides_containing_residue(self, mhc_class='I'):
         """
@@ -103,21 +111,21 @@ class Mutation:
             peptides = []
             pos = 11
             for kmer in [8,9,10,11]:
-                for i in range(len(self.short_mutated_sequence) - (kmer-1)):
+                for i in range(len(self.short_mutated_sequenceI) - (kmer-1)):
                     start = i
                     end = i + kmer
                     if pos >= start and pos < end:
-                        peptides.append(self.short_mutated_sequence[start:end])
+                        peptides.append(self.short_mutated_sequenceI[start:end])
 
         else: # MHC class II
             # Return lengths 15
             peptides = []
             pos = 15
             for kmer in [15]:
-                for i in range(len(self.short_mutated_sequence) - (kmer-1)):
+                for i in range(len(self.short_mutated_sequenceII) - (kmer-1)):
                     start = i
                     end = i + kmer
                     if pos >= start and pos < end:
-                        peptides.append(self.short_mutated_sequence[start:end])
+                        peptides.append(self.short_mutated_sequenceII[start:end])
 
         return peptides
