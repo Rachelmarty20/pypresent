@@ -47,31 +47,27 @@ class Mutation:
         output_file = '{0}{1}_{2}'.format(TEMP_DIR, self.id, str(time.time()).split('.')[0])
         self.restricted_fasta_file = output_file
 
-        # TODO: make this account for both classes
-        if mhc_class == 'I':
-            y = INPUT_FASTA_EXTENSION_I
-        else:
-            y = INPUT_FASTA_EXTENSION_II
-        # Make peptide sequence with mutation and output
-        if len(self.sequence) >= self.residue: #(not accurate for random)
-            mutated_sequence = self.sequence[:self.residue] \
-                               + self.aa + self.sequence[self.residue+1:]
-            # specify start and end
-            if (self.residue-1) - y >= 0:
-                start = (self.residue-1) - y
-            else:
-                start = -1
+        for y in [INPUT_FASTA_EXTENSION_I, INPUT_FASTA_EXTENSION_II]:
+            # Make peptide sequence with mutation and output
+            if len(self.sequence) >= self.residue: #(not accurate for random)
+                mutated_sequence = self.sequence[:self.residue] \
+                                   + self.aa + self.sequence[self.residue+1:]
+                # specify start and end
+                if (self.residue-1) - y >= 0:
+                    start = (self.residue-1) - y
+                else:
+                    start = -1
 
-            if (self.residue-1) + y <= len(self.sequence)-1:
-                end = (self.residue-1) + y
-            else:
-                end = len(self.sequence) - 2
+                if (self.residue-1) + y <= len(self.sequence)-1:
+                    end = (self.residue-1) + y
+                else:
+                    end = len(self.sequence) - 2
 
-            # Output to tmp file
-            with open(output_file, 'w') as f:
-                f.write('>gi {0}\n'.format(self.id))
-                f.write(mutated_sequence[start+1:end+2])
-            if mhc_class == 'I':
+                # Output to tmp file
+                with open(output_file, 'w') as f:
+                    f.write('>gi {0}\n'.format(self.id))
+                    f.write(mutated_sequence[start+1:end+2])
+            if y == INPUT_FASTA_EXTENSION_I:
                 self.short_mutated_sequenceI = mutated_sequence[start+1:end+2]
             else:
                 self.short_mutated_sequenceII = mutated_sequence[start+1:end+2]
