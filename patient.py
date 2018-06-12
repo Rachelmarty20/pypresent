@@ -67,9 +67,11 @@ class Patient:
 
             # Consolidate into a score
             if allele_scoring_function == 'best_rank':
-                allele_scores.append(single.best_rank(affinity_data_file, mutation))
+                allele_scores.append(single.best_rank(affinity_data_file, mutation,
+                                                      mhc_class=mhc_class))
             elif allele_scoring_function == 'harmonic_mean':
-                allele_scores.append(single.harmonic_mean(affinity_data_file, mutation))
+                allele_scores.append(single.harmonic_mean(affinity_data_file, mutation,
+                                                          mhc_class=mhc_class))
             else:
                 raise Exception('Please select an available single-allelic scoring function.')
 
