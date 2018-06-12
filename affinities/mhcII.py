@@ -28,7 +28,7 @@ def run_netmhcIIpan31(allele, mutation):
     # Run command
     cmd = '{0} -a {1} -f {2} -xls -xlsfile {3}'.format(NETMHCIIPAN31_PATH,
                                                                    allele.id,
-                                                                   mutation.restricted_fasta_file,
+                                                                   mutation.restricted_fasta_fileII,
                                                                     raw_affinities_file)
     os.system(cmd)
 

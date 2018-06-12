@@ -28,7 +28,7 @@ def run_netmhcpan30(allele, mutation):
     # Run command
     cmd = '{0} -a {1} -f {2} -xls -xlsfile {3}'.format(NETMHCPAN30_PATH,
                                                                    allele.id,
-                                                                   mutation.restricted_fasta_file,
+                                                                   mutation.restricted_fasta_fileI,
                                                                     raw_affinities_file)
     os.system(cmd)
 
