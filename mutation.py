@@ -38,7 +38,7 @@ class Mutation:
         :return: True if protein matches, False otherwise
         """
 
-    def _create_mutated_input_fasta(self, mhc_class='I'):
+    def _create_mutated_input_fasta(self):
         """
         Creating a mutated fasta file for affinity prediction in tmp directory
         :return: None
@@ -50,8 +50,10 @@ class Mutation:
             output_file = '{0}{1}_{2}'.format(TEMP_DIR, self.id, str(time.time()).split('.')[0])
             if y == INPUT_FASTA_EXTENSION_I:
                 self.restricted_fasta_fileI = output_file
+                mhc_class = 'I'
             else:
                 self.restricted_fasta_fileII = output_file
+                mhc_class = 'II'
             # Make peptide sequence with mutation and output
             if len(self.sequence) >= self.residue: #(not accurate for random)
                 mutated_sequence = self.sequence[:self.residue] \
