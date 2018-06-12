@@ -44,10 +44,14 @@ class Mutation:
         :return: None
         """
         # Create output file name
-        output_file = '{0}{1}_{2}'.format(TEMP_DIR, self.id, str(time.time()).split('.')[0])
-        self.restricted_fasta_file = output_file
+
 
         for y in [INPUT_FASTA_EXTENSION_I, INPUT_FASTA_EXTENSION_II]:
+            output_file = '{0}{1}_{2}'.format(TEMP_DIR, self.id, str(time.time()).split('.')[0])
+            if y == INPUT_FASTA_EXTENSION_I:
+                self.restricted_fasta_fileI = output_file
+            else:
+                self.restricted_fasta_fileII = output_file
             # Make peptide sequence with mutation and output
             if len(self.sequence) >= self.residue: #(not accurate for random)
                 mutated_sequence = self.sequence[:self.residue] \
