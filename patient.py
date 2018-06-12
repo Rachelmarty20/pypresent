@@ -13,7 +13,6 @@ class Patient:
     and
     '''
 
-    # TODO: This is currently confusing. Need default options for both classes.
     def __init__(self, alleles_I, alleles_II, id='SampleID'):
         '''
         Constructor from a file or from a list

@@ -31,12 +31,18 @@ class Mutation:
         sequence = str(fasta_sequences.next().seq)
         return sequence
 
-    # TODO: Add method
-    def _verify_matching_protein(self, native_aa):
+    def _verify_matching_protein(self):
         """
         Check that old_aa is what it should be
         :return: True if protein matches, False otherwise
         """
+        if self.native_aa == None:
+            return True
+        else:
+            if self.sequence[self.residue] == self.native_aa:
+                return True
+            else:
+                return False
 
     def _create_mutated_input_fasta(self):
         """
@@ -81,23 +87,29 @@ class Mutation:
             else:
                 raise Exception('Residue does not exist in the protien.')
 
-    def __init__(self, gene_fasta_file, residue, aa, id='mutationID',
-                 native_aa=None, native=False):
+    def __init__(self, residue, aa, from_file=True, gene_fasta_file='', gene_sequence='',
+                 id='mutationID', native_aa=None, native=False):
         """
         Constructor for direct peptide input
         :return: Object
         """
         # Protein sequence
-        self.gene_fasta_file = gene_fasta_file
+        if from_file:
+            self.gene_fasta_file = gene_fasta_file
+            self.sequence = self._get_protein_sequence()
+        else:
+            self.sequence = gene_sequence
+
         # Residue number
         self.residue = residue
+        # Old AA
+        self.native_aa = native_aa
+        if self._verify_matching_protein() == False:
+            print "Native amino acid does not match given protein."
         # New AA
         self.aa = aa
         # ID
         self.id = id
-
-        # Get sequence
-        self.sequence = self._get_protein_sequence()
 
         # Create prepped output file
         self._create_mutated_input_fasta()
