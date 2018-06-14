@@ -44,6 +44,7 @@ class Mutation:
             else:
                 return False
 
+    # TODO: Only need to create the class II fasta file because it will encompass all class I peptides
     def _create_mutated_input_fasta(self):
         """
         Creating a mutated fasta file for affinity prediction in tmp directory

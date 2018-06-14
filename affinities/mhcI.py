@@ -25,11 +25,15 @@ def run_netmhcpan30(allele, mutation):
     raw_affinities_file = '{0}raw_affinities.{1}_{2}'.format(TEMP_DIR, mutation.id,
                                                          str(time.time()).split('.')[0])
 
+    trash_file = '{0}trash.{1}_{2}'.format(TEMP_DIR, mutation.id,
+                                                         str(time.time()).split('.')[0])
+
     # Run command
-    cmd = '{0} -a {1} -f {2} -xls -xlsfile {3}'.format(NETMHCPAN30_PATH,
+    cmd = '{0} -a {1} -f {2} -xls -xlsfile {3} > {4}'.format(NETMHCPAN30_PATH,
                                                                    allele.id,
                                                                    mutation.restricted_fasta_fileI,
-                                                                    raw_affinities_file)
+                                                                    raw_affinities_file,
+                                                                    trash_file)
     os.system(cmd)
 
     # Alter output file
