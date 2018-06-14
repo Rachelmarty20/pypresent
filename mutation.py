@@ -89,7 +89,7 @@ class Mutation:
                 raise Exception('Residue does not exist in the protien.')
 
     def __init__(self, residue, aa, from_file=True, gene_fasta_file='', gene_sequence='',
-                 id='mutationID', native_aa=None, native=False):
+                 df = df[['Peptide', 'Rank']], native_aa=None, native=False):
         """
         Constructor for direct peptide input
         :return: Object
@@ -129,7 +129,7 @@ class Mutation:
                 for i in range(len(self.short_mutated_sequenceI) - (kmer-1)):
                     start = i
                     end = i + kmer
-                    if pos >= start and pos < end:
+                    if pos >= start and pos <= end:
                         peptides.append(self.short_mutated_sequenceI[start:end])
 
         else: # MHC class II
@@ -140,7 +140,7 @@ class Mutation:
                 for i in range(len(self.short_mutated_sequenceII) - (kmer-1)):
                     start = i
                     end = i + kmer
-                    if pos >= start and pos < end:
+                    if pos >= start and pos <= end:
                         peptides.append(self.short_mutated_sequenceII[start:end])
 
         return peptides
