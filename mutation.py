@@ -89,7 +89,7 @@ class Mutation:
                 raise Exception('Residue does not exist in the protien.')
 
     def __init__(self, residue, aa, from_file=True, gene_fasta_file='', gene_sequence='',
-                 df = df[['Peptide', 'Rank']], native_aa=None, native=False):
+                 id='mutationID', native_aa=None, native=False):
         """
         Constructor for direct peptide input
         :return: Object
