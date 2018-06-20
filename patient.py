@@ -2,9 +2,6 @@ from allele import Allele
 from scoring import single, multi
 from affinities import mhcI, mhcII
 
-ALLELES_I = ['HLA-A01:01', 'HLA-A01:01', 'HLA-B07:02', 'HLA-B07:02', 'HLA-C01:02', 'HLA-C01:02']
-ALLELES_II = []
-
 
 class Patient:
 

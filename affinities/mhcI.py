@@ -10,9 +10,7 @@ import os
 import time
 import pandas as pd
 
-NETMHCPAN30_PATH = '/cellar/users/ramarty/programs/netMHCpan-3.0/netMHCpan'
-TEMP_DIR = '/cellar/users/ramarty/Data/pypresent/tmp/'
-
+import config
 
 def run_netmhcpan30(allele, mutation):
     """
