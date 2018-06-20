@@ -1,5 +1,3 @@
-import numpy as np
-
 from scoring import single
 from affinities import mhcI, mhcII
 
@@ -54,7 +52,7 @@ class Allele:
 
         # Consolidate into a score
         if scoring_function == 'best_rank':
-            score = single.best_rank(affinity_data_file, mutation)
+            score = single.best_rank(affinity_data_file, mutation, mhc_class=self.mhc_class)
         else:
             raise Exception('Please select an available scoring function.')
 
