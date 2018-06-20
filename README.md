@@ -6,7 +6,7 @@ Author: Rachel Marty <br>
 
 Introduction
 --------
-
+PyPresent has been developed to improve the reproducibility of MHC-I and MHC-II presentation scores as seen in (Marty et al. 2017). It is a wrapper that is build around netMHCpan and netMHCIIpan. Users can get residue-centric presentation by single alleles and multi-allelic patients.
 
 Requirements 
 ---------
@@ -29,9 +29,13 @@ Setup
 ---------
 1. Clone repository locally.
 2. Download NetMHCpan and NetMHCIIpan. 
-3. Add paths.
+3. Update paths for NetMHCpan, NetMHCIIpan and a temporary directory in the config.py file.
 4. Download python modules. 
-
+5. Run example_usage.ipynb. The scores should be as follows:
+	* HLA-A01:01 - 0.25
+	* DRB1_1114 - 46.0
+	* Patient MHCI - 1.810..
+	* Patient MHCII - 5.379..
 
 Inputs needed for scores
 ------
@@ -51,7 +55,7 @@ Inputs needed for scores
 
 Test examples
 ------
-See example_usage.ipyn
+See example_usage.ipynb
 
 Contact
 ------
