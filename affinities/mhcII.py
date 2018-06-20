@@ -12,6 +12,8 @@ import pandas as pd
 
 import config
 
+NETMHCIIPAN31_PATH, TEMP_DIR = config.setup_MHCII()
+
 def run_netmhcIIpan31(allele, mutation):
     """
     To run netMHCIIpan3.1 and return a cleaned dataframe

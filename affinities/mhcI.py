@@ -12,6 +12,8 @@ import pandas as pd
 
 import config
 
+NETMHCPAN30_PATH, TEMP_DIR = config.setup_MHCI()
+
 def run_netmhcpan30(allele, mutation):
     """
     To run netMHCpan3.0 and return a cleaned dataframe
