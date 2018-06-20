@@ -39,14 +39,14 @@ Setup
 
 Inputs needed for scores
 ------
-###Single-Allelic Score (Best Rank)
+### Single-Allelic Score (Best Rank)
 * MHC-I/MHC-II allele
 * Mutation information:
 	* Gene sequence - *string or fasta file*
 	* Residue position
 	* New amino acid
 
-###Multi-Allellic Score (PHBR)
+### Multi-Allellic Score (PHBR)
 * All MHC-I/MHC-II alleles
 * Mutation information:
 	* Gene sequence
@@ -63,4 +63,5 @@ ramarty [at] ucsd.edu
 
 Citation
 ------
+
 [Marty, Rachel, et al. "MHC-I genotype restricts the oncogenic mutational landscape." Cell 171.6 (2017): 1272-1283.] (https://www.cell.com/cell/fulltext/S0092-8674(17)31144-3)
