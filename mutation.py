@@ -63,8 +63,8 @@ class Mutation:
                 mhc_class = 'II'
             # Make peptide sequence with mutation and output
             if len(self.sequence) >= self.residue: #(not accurate for random)
-                mutated_sequence = self.sequence[:self.residue] \
-                                   + self.aa + self.sequence[self.residue+1:]
+                mutated_sequence = self.sequence[:self.residue-1] \
+                       + self.aa + self.sequence[self.residue:]
                 # specify start and end
                 if (self.residue-1) - y >= 0:
                     start = (self.residue-1) - y
@@ -74,12 +74,12 @@ class Mutation:
                 if (self.residue-1) + y <= len(self.sequence)-1:
                     end = (self.residue-1) + y
                 else:
-                    end = len(self.sequence) - 2
+                    end = len(self.sequence) - 1
 
                 # Output to tmp file
                 with open(output_file, 'w') as f:
                     f.write('>gi {0}\n'.format(self.id))
-                    f.write(mutated_sequence[start+1:end+2])
+                    f.write(mutated_sequence[start:end+1])
                 if y == INPUT_FASTA_EXTENSION_I:
                     self.short_mutated_sequenceI = mutated_sequence[start+1:end+2]
                 else:
