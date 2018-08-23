@@ -28,9 +28,8 @@ def run_netmhcpan30(allele, mutation):
     raw_affinities_file = '{0}raw_affinities.{1}_{2}'.format(TEMP_DIR, mutation.id,
                                                          raw_identifier)
 
-    trash_identifier = ''.join(random.choice(list(string.ascii_uppercase + string.digits)) for _ in range(6))
     trash_file = '{0}trash.{1}_{2}'.format(TEMP_DIR, mutation.id,
-                                                         trash_identifier)
+                                                         raw_identifier)
 
     # Run command
     cmd = '{0} -a {1} -f {2} -xls -xlsfile {3} > {4}'.format(NETMHCPAN30_PATH,
@@ -47,6 +46,6 @@ def run_netmhcpan30(allele, mutation):
 
     # Save re-formatted output file
     formatted_affinities_file = '{0}formatted_affinities.{1}_{2}'.format(TEMP_DIR, mutation.id,
-                                                         str(time.time()).split('.')[0])
+                                                         raw_identifier)
     df.to_csv(formatted_affinities_file)
     return formatted_affinities_file
