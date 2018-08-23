@@ -39,7 +39,7 @@ class Mutation:
         if self.native_aa == None:
             return True
         else:
-            if self.sequence[self.residue] == self.native_aa:
+            if self.sequence[self.residue - 1] == self.native_aa:
                 return True
             else:
                 return False
