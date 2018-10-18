@@ -27,7 +27,7 @@ def run_netmhcpan30(allele, mutation):
     raw_identifier = ''.join(random.choice(list(string.ascii_uppercase + string.digits)) for _ in range(6))
     raw_affinities_file = '{0}raw_affinities.{1}_{2}'.format(TEMP_DIR, mutation.id,
                                                          raw_identifier)
-
+    
     trash_file = '{0}trash.{1}_{2}'.format(TEMP_DIR, mutation.id,
                                                          raw_identifier)
 
