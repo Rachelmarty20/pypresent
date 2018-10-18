@@ -76,6 +76,7 @@ class Mutation:
                 else:
                     end = len(self.sequence) - 1
 
+                print start, end
                 # Output to tmp file
                 with open(output_file, 'w') as f:
                     f.write('>gi {0}\n'.format(self.id))
