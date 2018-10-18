@@ -43,6 +43,10 @@ def run_netmhcIIpan31(allele, mutation):
                header=1)
     df = df[['Peptide', 'Rank']]
 
+    # TODO: Reduce to the peptides containing the residue
+
+    df = df[df.Peptide.isin(mutation.peptidesII)]
+
     # Save re-formatted output file
     formatted_affinities_file = os.path.join(TEMP_DIR, 'formatted_affinities.{0}_{1}'.format(mutation.id, raw_identifier))
 

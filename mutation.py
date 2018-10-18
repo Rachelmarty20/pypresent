@@ -117,6 +117,9 @@ class Mutation:
         # Create prepped output file
         self._create_mutated_input_fasta()
 
+        self.peptidesI = self.get_peptides_containing_residue('I')
+        self.peptidesII = self.get_peptides_containing_residue('II')
+
     def get_peptides_containing_residue(self, mhc_class='I'):
         """
         Return the substrings of self.short_mutated_sequence containing the residue
