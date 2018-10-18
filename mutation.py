@@ -81,7 +81,7 @@ class Mutation:
                 # Output to tmp file
                 with open(output_file, 'w') as f:
                     f.write('>gi {0}\n'.format(self.id))
-                    f.write(mutated_sequence[start:end+1])
+                    f.write(mutated_sequence[start+1:end+2])
                 if y == INPUT_FASTA_EXTENSION_I:
                     self.short_mutated_sequenceI = mutated_sequence[start+1:end+2]
                 else:
