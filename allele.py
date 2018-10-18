@@ -26,7 +26,7 @@ class Allele:
                 self.id = id
                 self.mhc_class = mhc_class
             except NameError:
-                print("Please specificy an allele name or an input file.")
+                print("Please specify an allele name or an input file.")
 
 
     def allele_score(self, mutation, scoring_function='best_rank'):

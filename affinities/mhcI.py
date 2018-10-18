@@ -45,7 +45,7 @@ def run_netmhcpan30(allele, mutation):
     df = df[['Peptide', 'Rank']]
 
     # Save re-formatted output file
-    formatted_affinities_file = '{0}formatted_affinities.{1}_{2}'.format(TEMP_DIR, mutation.id,
-                                                         raw_identifier)
+    formatted_affinities_file = os.path.join(TEMP_DIR, 'formatted_affinities.{0}_{1}'.format(mutation.id, raw_identifier))
+
     df.to_csv(formatted_affinities_file)
     return formatted_affinities_file

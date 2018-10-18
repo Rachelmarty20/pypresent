@@ -9,6 +9,7 @@ Will implement native and MHC-II mutation capabilities as well.
 '''
 
 import time
+import os
 # May want to work around this to avoid the import
 from Bio import SeqIO
 
@@ -54,7 +55,7 @@ class Mutation:
 
 
         for y in [INPUT_FASTA_EXTENSION_I, INPUT_FASTA_EXTENSION_II]:
-            output_file = '{0}{1}_{2}'.format(TEMP_DIR, self.id, str(time.time()).split('.')[0])
+            output_file = os.path.join(TEMP_DIR, '{}_{}'.format(self.id, str(time.time()).split('.')[0]))
             if y == INPUT_FASTA_EXTENSION_I:
                 self.restricted_fasta_fileI = output_file
                 mhc_class = 'I'
@@ -76,6 +77,7 @@ class Mutation:
                 else:
                     end = len(self.sequence) - 1
 
+                print start, end
                 # Output to tmp file
                 with open(output_file, 'w') as f:
                     f.write('>gi {0}\n'.format(self.id))
