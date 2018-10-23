@@ -81,11 +81,11 @@ class Mutation:
                 # Output to tmp file
                 with open(output_file, 'w') as f:
                     f.write('>gi {0}\n'.format(self.id))
-                    f.write(mutated_sequence[start:end+1])
+                    f.write(mutated_sequence[start:end])
                 if y == INPUT_FASTA_EXTENSION_I:
-                    self.short_mutated_sequenceI = mutated_sequence[start:end+1]
+                    self.short_mutated_sequenceI = mutated_sequence[start:end]
                 else:
-                    self.short_mutated_sequenceII = mutated_sequence[start:end+1]
+                    self.short_mutated_sequenceII = mutated_sequence[start:end]
 
             else:
                 raise Exception('Residue does not exist in the protien.')
@@ -129,9 +129,12 @@ class Mutation:
         if mhc_class == 'I':
             # Return lengths 8, 9, 10, 11
             peptides = []
-            pos = 11
+            if self.residue < 11:
+                pos = self.residue
+            else:
+                pos = 11
             for kmer in [8,9,10,11]:
-                for i in range(len(self.short_mutated_sequenceI) - (kmer - 1)):
+                for i in range(len(self.short_mutated_sequenceI) - (kmer - 1)): # might need to update
                     start = i
                     end = i + kmer
                     if pos > start and pos <= end:
@@ -140,7 +143,10 @@ class Mutation:
         else: # MHC class II
             # Return lengths 15
             peptides = []
-            pos = 15
+            if self.residue < 15:
+                pos = self.residue
+            else:
+                pos = 15
             for kmer in [15]:
                 for i in range(len(self.short_mutated_sequenceII) - (kmer - 1)):
                     start = i
