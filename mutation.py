@@ -83,7 +83,8 @@ class Mutation:
                     f.write('>gi {0}\n'.format(self.id))
                     f.write(mutated_sequence[start+1:end+2])
                 if y == INPUT_FASTA_EXTENSION_I:
-                    self.short_mutated_sequenceI = mutated_sequence[start+1:end+2]
+                    # updated from self.short_mutated_sequenceI = mutated_sequence[start+1:end+2]
+                    self.short_mutated_sequenceI = mutated_sequence[start:end+2]
                 else:
                     self.short_mutated_sequenceII = mutated_sequence[start+1:end+2]
 
