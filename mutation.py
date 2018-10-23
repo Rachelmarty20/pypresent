@@ -134,7 +134,7 @@ class Mutation:
                 for i in range(len(self.short_mutated_sequenceI) - (kmer)):
                     start = i
                     end = i + kmer
-                    if pos >= start and pos <= end:
+                    if pos > start and pos <= end:
                         peptides.append(self.short_mutated_sequenceI[start:end])
 
         else: # MHC class II
@@ -145,7 +145,7 @@ class Mutation:
                 for i in range(len(self.short_mutated_sequenceII) - (kmer)):
                     start = i
                     end = i + kmer
-                    if pos >= start and pos <= end:
+                    if pos > start and pos <= end:
                         peptides.append(self.short_mutated_sequenceII[start:end])
 
         return peptides
