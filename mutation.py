@@ -131,7 +131,7 @@ class Mutation:
             peptides = []
             pos = 11
             for kmer in [8,9,10,11]:
-                for i in range(len(self.short_mutated_sequenceI) - (kmer)):
+                for i in range(len(self.short_mutated_sequenceI) - (kmer - 1)):
                     start = i
                     end = i + kmer
                     if pos > start and pos <= end:
@@ -142,7 +142,7 @@ class Mutation:
             peptides = []
             pos = 15
             for kmer in [15]:
-                for i in range(len(self.short_mutated_sequenceII) - (kmer)):
+                for i in range(len(self.short_mutated_sequenceII) - (kmer - 1)):
                     start = i
                     end = i + kmer
                     if pos > start and pos <= end:
