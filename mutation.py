@@ -70,7 +70,7 @@ class Mutation:
                 if (self.residue-1) - y >= 0:
                     start = (self.residue-1) - y
                 else:
-                    start = -1
+                    start = 0
 
                 if (self.residue-1) + y <= len(self.sequence)-1:
                     end = (self.residue-1) + y
@@ -81,11 +81,11 @@ class Mutation:
                 # Output to tmp file
                 with open(output_file, 'w') as f:
                     f.write('>gi {0}\n'.format(self.id))
-                    f.write(mutated_sequence[start+1:end+2])
+                    f.write(mutated_sequence[start:end+1])
                 if y == INPUT_FASTA_EXTENSION_I:
-                    self.short_mutated_sequenceI = mutated_sequence[start:end+2]
+                    self.short_mutated_sequenceI = mutated_sequence[start:end+1]
                 else:
-                    self.short_mutated_sequenceII = mutated_sequence[start:end+2]
+                    self.short_mutated_sequenceII = mutated_sequence[start:end+1]
 
             else:
                 raise Exception('Residue does not exist in the protien.')
