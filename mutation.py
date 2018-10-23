@@ -73,7 +73,7 @@ class Mutation:
                     start = 0
 
                 if (self.residue-1) + y <= len(self.sequence)-1:
-                    end = (self.residue-1) + y
+                    end = (self.residue-1) + y + 1
                 else:
                     end = len(self.sequence) - 1
 
