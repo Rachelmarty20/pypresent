@@ -28,9 +28,9 @@ class Patient:
         :return: None
         '''
         for hla in self.hla_I_types:
-            print hla.id
+            print(hla.id)
         for hla in self.hla_II_types:
-            print hla.id
+            print(hla.id)
 
     def patient_score(self, mutation, mhc_class='I',
                       allele_scoring_function='best_rank',

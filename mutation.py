@@ -28,8 +28,9 @@ class Mutation:
         Get the protein sequence from the fasta file
         :return: None
         """
-        fasta_sequences = SeqIO.parse(open(self.gene_fasta_file),'fasta')
-        sequence = str(fasta_sequences.next().seq)
+        with open(self.gene_fasta_file, 'r') as handle:
+            fasta_sequences = next(SeqIO.parse(handle, 'fasta'))
+        sequence = str(fasta_sequences.seq)
         return sequence
 
     def _verify_matching_protein(self):
@@ -77,7 +78,7 @@ class Mutation:
                 else:
                     end = len(self.sequence)
 
-                print start, end
+                print(start, end)
                 # Output to tmp file
                 with open(output_file, 'w') as f:
                     f.write('>gi {0}\n'.format(self.id))
@@ -108,7 +109,7 @@ class Mutation:
         # Old AA
         self.native_aa = native_aa
         if self._verify_matching_protein() == False:
-            print "Native amino acid does not match given protein."
+            print("Native amino acid does not match given protein.")
         # New AA
         self.aa = aa
         # ID
